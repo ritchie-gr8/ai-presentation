@@ -14,6 +14,7 @@ import React from "react";
 import NavMain from "./nav-main";
 import { data } from "@/lib/constants";
 import RecentOpen from "./recent-open";
+import NavFooter from "./nav-footer";
 
 const AppSidebar = ({
   recentProjects,
@@ -53,7 +54,9 @@ const AppSidebar = ({
         <NavMain items={data.navMain} />
         <RecentOpen recentProjects={recentProjects} />
       </SidebarContent>
-      <SidebarFooter />
+      <SidebarFooter>
+        <NavFooter prismaUser={user} />
+      </SidebarFooter>
     </Sidebar>
   );
 };
