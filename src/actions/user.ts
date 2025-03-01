@@ -41,8 +41,7 @@ export const onAuthenticateUser = async () => {
     if (newUser) {
       return {
         status: 201,
-        user,
-        newUser,
+        user: newUser,
       };
     }
 

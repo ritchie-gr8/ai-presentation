@@ -1,3 +1,4 @@
+"use client";
 import { Avatar } from "@/components/ui/avatar";
 import {
   Sidebar,
@@ -11,6 +12,8 @@ import { Project, User } from "@prisma/client";
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import React from "react";
 import NavMain from "./nav-main";
+import { data } from "@/lib/constants";
+import RecentOpen from "./recent-open";
 
 const AppSidebar = ({
   recentProjects,
@@ -18,6 +21,7 @@ const AppSidebar = ({
   ...props
 }: {
   recentProjects: Project[];
+} & {
   user: User;
 } & React.ComponentProps<typeof Sidebar>) => {
   return (
@@ -46,7 +50,8 @@ const AppSidebar = ({
         </SidebarMenuButton>
       </SidebarHeader>
       <SidebarContent className="px-3 mt-10 gap-y-6">
-        <NavMain />
+        <NavMain items={data.navMain} />
+        <RecentOpen recentProjects={recentProjects} />
       </SidebarContent>
       <SidebarFooter />
     </Sidebar>
