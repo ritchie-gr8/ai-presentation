@@ -68,3 +68,9 @@ export type Theme = {
   navbarColor?: string;
   type: "light" | "dark";
 };
+
+export type OutlineCard = {
+  title: string;
+  id: string;
+  order: number;
+};

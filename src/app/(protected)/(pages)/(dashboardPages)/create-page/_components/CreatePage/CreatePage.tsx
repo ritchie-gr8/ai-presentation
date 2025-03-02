@@ -7,12 +7,16 @@ import {
   itemVariants,
 } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
+import RecentPrompts from "../GenerateAI/RecentPrompts";
+import usePromptStore from "@/store/usePromptStore";
 
 type Props = {
   onSelectOptions: (option: string) => void;
 };
 
 const CreatePage = ({ onSelectOptions }: Props) => {
+  const { prompts } = usePromptStore();
+
   return (
     <motion.div
       variants={containeVariants}
@@ -87,6 +91,8 @@ const CreatePage = ({ onSelectOptions }: Props) => {
           </motion.div>
         ))}
       </motion.div>
+
+      {prompts.length > 0 && <RecentPrompts />}
     </motion.div>
   );
 };
