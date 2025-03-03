@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import CardList from "../Common/CardList";
 
 type Props = {
   onBack: () => void;
@@ -28,8 +29,14 @@ const CreativeAI = ({ onBack }: Props) => {
   const [editText, setEditText] = useState("");
   const [numOfCards, setNumOfCards] = useState(0);
 
-  const { currentAiPrompt, setCurrentAiPrompt, outlines, resetOutlines } =
-    useCreativeAIStore();
+  const {
+    currentAiPrompt,
+    outlines,
+    setCurrentAiPrompt,
+    resetOutlines,
+    addOutline,
+    addMultipleOutlines,
+  } = useCreativeAIStore();
   const handleBack = () => onBack();
   const resetCards = () => {
     setEditingCard(null);
@@ -127,6 +134,23 @@ const CreativeAI = ({ onBack }: Props) => {
           )}
         </Button>
       </div>
+      <CardList
+        outlines={outlines}
+        addOutline={addOutline}
+        addMultipleOutlines={addMultipleOutlines}
+        editingCard={editingCard}
+        selectedCard={selectedCard}
+        editText={editText}
+        onEditChange={setEditText}
+        onCardSelect={setSelectedCard}
+        setEditText={setEditText}
+        setEditingCard={setEditingCard}
+        setSelectedCard={setSelectedCard}
+        onCardDoubleClick={(id, title) => {
+          setEditingCard(id);
+          setEditText(title);
+        }}
+      />
     </motion.div>
   );
 };
