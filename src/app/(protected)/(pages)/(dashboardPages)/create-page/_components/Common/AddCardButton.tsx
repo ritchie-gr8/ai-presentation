@@ -12,10 +12,10 @@ const AddCardButton = ({ onAddCard }: Props) => {
   const [showGap, setShowGap] = useState(false);
   return (
     <motion.div
-      className="w-full relative overflow-hidden"
-      initial={{ height: "0.5rem" }}
+      className="w-full relative overflow-hidden mt-7"
+      initial={{ height: "1.5rem" }}
       animate={{
-        height: showGap ? "2rem" : "0.5rem",
+        height: showGap ? "2rem" : "1.5rem",
         transition: { duration: 0.3, ease: "easeInOut" },
       }}
       onHoverStart={() => setShowGap(true)}

@@ -168,7 +168,7 @@ const CardList = ({
 
   return (
     <motion.div
-      className="space-y-2 -my-2"
+      className="-my-2"
       layout
       onDragOver={(e) => {
         e.preventDefault();
@@ -197,7 +197,7 @@ const CardList = ({
               onEditBlur={() => onCardUpdate(card.id, editText)}
               onEditKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  onCardUpdate(card.id, card.title);
+                  onCardUpdate(card.id, editText);
                 }
               }}
               onCardClick={() => onCardSelect(card.id)}
