@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { Theme } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import ThemeCard from "./ThemeCard";
 
 type Props = {};
 
@@ -32,7 +33,12 @@ const ThemePreview = (props: Props) => {
         className="rounded-xl p-6"
         style={{ backgroundColor: selectedTheme.accentColor + "10" }}
       >
-        <h3 className="text-xl font-semibold mb-4">Quick Start Guide</h3>
+        <h3
+          className="text-xl font-semibold mb-4"
+          style={{ color: selectedTheme.accentColor }}
+        >
+          Quick Start Guide
+        </h3>
         <ol
           className="list-decimal list-inside space-y-2"
           style={{ color: selectedTheme.accentColor }}
@@ -93,7 +99,7 @@ const ThemePreview = (props: Props) => {
           variant={"outline"}
           className="h-12 px-6 text-lg font-medium"
           style={{
-            backgroundColor: selectedTheme.accentColor,
+            borderColor: selectedTheme.accentColor,
             color: selectedTheme.fontColor,
           }}
         >
@@ -164,8 +170,30 @@ const ThemePreview = (props: Props) => {
             Back
           </Button>
           <div className="w-full flex justify-center items-center relative flex-grow">
-            {/* // TODO: add themeCard components */}
-            {/* <ThemeCard /> */}
+            <ThemeCard
+              title="Quick Start"
+              description="Get up and running in no time"
+              content={leftCardContent}
+              variant="left"
+              theme={selectedTheme}
+              controls={controls}
+            />
+            <ThemeCard
+              title="Main preview"
+              description="This is the main theme preview card"
+              content={mainCardContent}
+              variant="main"
+              theme={selectedTheme}
+              controls={controls}
+            />
+            <ThemeCard
+              title="Theme Features"
+              description="Discover what our themes can do"
+              content={rightCardContent}
+              variant="right"
+              theme={selectedTheme}
+              controls={controls}
+            />
           </div>
         </div>
       </div>
