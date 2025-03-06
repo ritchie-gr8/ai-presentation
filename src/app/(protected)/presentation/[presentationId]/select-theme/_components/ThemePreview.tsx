@@ -7,6 +7,8 @@ import { Theme } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import ThemeCard from "./ThemeCard";
+import ThemePicker from "./ThemePicker";
+import { themes } from "@/lib/constants";
 
 type Props = {};
 
@@ -144,6 +146,11 @@ const ThemePreview = (props: Props) => {
     </div>
   );
 
+  const applyTheme = (theme: Theme) => {
+    setSelectedTheme(theme);
+    setCurrentTheme(theme);
+  };
+
   return (
     <div
       className="h-screen w-full flex"
@@ -197,6 +204,12 @@ const ThemePreview = (props: Props) => {
           </div>
         </div>
       </div>
+
+      <ThemePicker
+        selectedTheme={selectedTheme}
+        themes={themes}
+        onThemeSelect={applyTheme}
+      />
     </div>
   );
 };
