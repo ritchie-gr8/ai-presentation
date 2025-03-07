@@ -1,4 +1,4 @@
-import { generateLayouts } from "@/actions/gemini";
+import { generateLayouts } from "@/actions/openai";
 import { Button } from "@/components/ui/button";
 import { Theme } from "@/lib/types";
 import { useSlideStore } from "@/store/useSlideStore";
