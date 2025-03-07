@@ -1,11 +1,13 @@
 import { generateLayouts } from "@/actions/openai";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Theme } from "@/lib/types";
 import { useSlideStore } from "@/store/useSlideStore";
 import { Loader2, Wand2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
 
 type Prop = {
   selectedTheme: Theme;
@@ -20,29 +22,47 @@ const ThemePicker = ({ selectedTheme, themes, onThemeSelect }: Prop) => {
   const { project, setSlides, currentTheme } = useSlideStore();
   const [loading, setLoading] = useState(false);
 
-  const handleGenerateLayouts =async () => {
+  const handleGenerateLayouts = async () => {
     if (!selectedTheme) {
-        toast.error('Error', {
-            description: 'Please select a theme',
-        })
-        return
+      toast.error("Error", {
+        description: "Please select a theme",
+      });
+      return;
     }
 
-    if (project?.id === '') {
-        toast.error('Error', {
-            description: 'Please create a project'
-        })
-        router.push('/create-page')
-        return
+    if (project?.id === "") {
+      toast.error("Error", {
+        description: "Please create a project",
+      });
+      router.push("/create-page");
+      return;
     }
 
-    setLoading(true)
+    setLoading(true);
     try {
-        // const res = await generateLayouts()
+      const res = await generateLayouts(
+        params.presentationId as string,
+        currentTheme.name
+      );
+
+      if (res.status !== 200 || !("data" in res)) {
+        throw new Error("Failed to generate layouts");
+      }
+
+      toast.success("Success", {
+        description: "Layouts generated successfully",
+      });
+
+      router.push(`/presentation/${project?.id}`);
+      setSlides(res.data);
     } catch (error) {
-        
+      toast.error("Error", {
+        description: "Failed to generate layouts",
+      });
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div
@@ -90,6 +110,22 @@ const ThemePicker = ({ selectedTheme, themes, onThemeSelect }: Prop) => {
           )}
         </Button>
       </div>
+      <ScrollArea className="flex-grow px-8 pb-8">
+        <div className="grid grid-cols-1 gap-4">
+          {themes.map((theme) => (
+            <motion.div
+              key={theme.name}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.8 }}
+            >
+              <Button
+                onClick={() => onThemeSelect(theme)}
+                className="flex flex-col items-center justify-start p-6 w-full h-auto"
+              ></Button>
+            </motion.div>
+          ))}
+        </div>
+      </ScrollArea>
     </div>
   );
 };

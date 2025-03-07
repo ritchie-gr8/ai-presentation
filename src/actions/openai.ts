@@ -539,15 +539,17 @@ export const generateLayoutsJson = async (outlineArray: string[]) => {
       return { status: 400, error: "No content generated" };
     }
 
+    let parsedResponse;
     try {
-      const parsedResponse = JSON.parse(
-        responseContent.replace(/```json|```/g, "")
-      );
-      return { status: 200, data: parsedResponse };
+      parsedResponse = JSON.parse(responseContent.replace(/```json|```/g, ""));
+      await Promise.all(parsedResponse.map(replaceImagePlaceholders));
     } catch (error) {
-      console.error("Invalid JSON from Gemini", error);
-      return { status: 500, error: "Invalid JSON from AI" };
+      console.error("Invalid JSON from OpenAI", error);
+      throw new Error("Invalid JSON format received from AI");
     }
+
+    console.log("🟢 Layouts generated successfully");
+    return { status: 200, data: parsedResponse };
   } catch (error) {
     console.error("🔴 ERROR", error);
     return { status: 500, error: "Internal server error" };
