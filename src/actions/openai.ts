@@ -1,3 +1,5 @@
+'use server'
+
 import { client } from "@/lib/prisma";
 import { ContentItem, ContentType, Slide } from "@/lib/types";
 import { currentUser } from "@clerk/nextjs/server";

@@ -121,6 +121,11 @@ const ThemePicker = ({ selectedTheme, themes, onThemeSelect }: Prop) => {
               <Button
                 onClick={() => onThemeSelect(theme)}
                 className="flex flex-col items-center justify-start p-6 w-full h-auto"
+                style={{
+                  fontFamily: theme.fontFamily,
+                  color: theme.fontColor,
+                  background: theme.gradientBackground || theme.backgroundColor,
+                }}
               ></Button>
             </motion.div>
           ))}
