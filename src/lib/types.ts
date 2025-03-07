@@ -74,3 +74,10 @@ export type OutlineCard = {
   id: string;
   order: number;
 };
+
+export type LayoutSlides = {
+  slideName: string
+  content: ContentItem
+  className?: string
+  type: string
+}

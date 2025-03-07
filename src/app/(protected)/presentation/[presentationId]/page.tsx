@@ -1,5 +1,6 @@
 "use client";
-import {DndProvider} from 'react-dnd'
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd";
 import { getProjectById } from "@/actions/projects";
 import { themes } from "@/lib/constants";
 import { useSlideStore } from "@/store/useSlideStore";
@@ -8,11 +9,14 @@ import { useTheme } from "next-themes";
 import { redirect, useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
+import Navbar from "./_components/Navbar/Navbar";
+import LayoutPreview from "./_components/editor-sidebar/left-sidebar/LayoutPreview";
+import Editor from "./_components/editor/Editor";
 
 type Props = {};
 
 const Page = (props: Props) => {
-    // TODO: create presentation builder page
+  // TODO: create presentation builder page
   const { setSlides, setProject, currentTheme, setCurrentTheme } =
     useSlideStore();
 
@@ -57,7 +61,26 @@ const Page = (props: Props) => {
     );
   }
 
-  return <DndProvider></DndProvider>
+  return (
+    <DndProvider backend={HTML5Backend}>
+      <div className="min-h-screen flex flex-col">
+        <Navbar presentationId={params.presentationId as string} />
+        <div
+          className="flex-1 flex overflow-hidden pt-16"
+          style={{
+            color: currentTheme.accentColor,
+            fontFamily: currentTheme.fontFamily,
+            background: currentTheme.backgroundColor,
+          }}
+        >
+          <LayoutPreview />
+          <div className="flex-1 ml-64 pr-16">
+            <Editor isEditable={true} />
+          </div>
+        </div>
+      </div>
+    </DndProvider>
+  );
 };
 
 export default Page;

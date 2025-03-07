@@ -1,3 +1,5 @@
+'use client'
+
 import { containeVariants } from "@/lib/constants";
 import { Project } from "@prisma/client";
 import { motion } from "framer-motion";
