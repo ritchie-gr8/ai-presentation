@@ -140,7 +140,7 @@ export const DraggableSlide: React.FC<DraggableSlideProps> = ({
       </div>
       {isEditable && (
         <Popover>
-          <PopoverTrigger asChild className="absolute top-2 left-2">
+          <PopoverTrigger asChild className="absolute top-2 left-2 opacity-60 hover:opacity-100">
             <Button variant={"outline"} size={"sm"}>
               <EllipsisVertical className="size-5" />
               <span className="sr-only">Slide options</span>

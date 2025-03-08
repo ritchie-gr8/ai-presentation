@@ -29,14 +29,12 @@ const Paragraph = React.forwardRef<HTMLTextAreaElement, ParagraphProps>(
     return (
       <textarea
         className={cn(
-          `w-full bg-transparent font-normal text-gray-900 placeholder:text-gray-300
-                focus:outline-none resize-none overflow-hidden leading-tight`,
+          `w-full bg-transparent font-normal text-gray-900 placeholder:text-gray-300 mx-2
+                focus:outline-none resize-none overflow-hidden leading-tight focus:bg-primary`,
           `${isPreview ? "text-[0.5rem]" : "text-lg"}`,
           className
         )}
         style={{
-          padding: 0,
-          margin: 0,
           color: "inherit",
           boxSizing: "content-box",
           lineHeight: "1.5em",
