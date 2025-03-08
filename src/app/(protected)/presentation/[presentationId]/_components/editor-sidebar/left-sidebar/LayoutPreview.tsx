@@ -2,6 +2,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSlideStore } from "@/store/useSlideStore";
 import React, { useEffect, useState } from "react";
+import DraggableSlidePreview from "./DraggableSlidePreview";
 
 type Props = {};
 
@@ -10,12 +11,16 @@ const LayoutPreview = () => {
   const { getOrderedSlides, reorderSlides } = useSlideStore();
   const slides = getOrderedSlides();
 
+  const moveSlide = (dragIndex: number, hoverIndex: number) => {
+    reorderSlides(dragIndex, hoverIndex);
+  };
+
   useEffect(() => {
     if (typeof window !== "undefined") setLoading(false);
   }, []);
 
   return (
-    <div className="w-64 h-full fixed left-0 top-20 border-r overflow-y-auto">
+    <div className="w-72 h-full fixed left-0 top-20 border-r overflow-y-auto">
       <ScrollArea className="h-full w-full" suppressHydrationWarning>
         {loading ? (
           <div className="w-full px-4 flex flex-col space-y-6">
@@ -36,15 +41,14 @@ const LayoutPreview = () => {
                 {slides.length} {slides.length > 1 ? "slides" : "slide"}
               </span>
             </div>
-            {/* TODO: add draggable slide component */}
-            {/* {slides.map((slide, idx) => (
-                <DraggableSlidePreview
-                    key={slide.id || idx}
-                    slide={slide}
-                    index={idx}
-                    moveSlide={moveSlide}
-                />
-            ))} */}
+            {slides.map((slide, idx) => (
+              <DraggableSlidePreview
+                key={slide.id || idx}
+                slide={slide}
+                index={idx}
+                moveSlide={moveSlide}
+              />
+            ))}
           </div>
         )}
       </ScrollArea>
