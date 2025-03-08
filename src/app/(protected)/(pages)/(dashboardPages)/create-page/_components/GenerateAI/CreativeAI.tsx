@@ -18,11 +18,11 @@ import CardList from "../Common/CardList";
 import usePromptStore from "@/store/usePromptStore";
 import RecentPrompts from "./RecentPrompts";
 import { toast } from "sonner";
-import { generateCreativePrompt } from "@/actions/gemini";
 import { OutlineCard } from "@/lib/types";
 import { v4 as uuid, v4 } from "uuid";
 import { createProject } from "@/actions/projects";
 import { useSlideStore } from "@/store/useSlideStore";
+import { generateCreativePrompt } from "@/actions/openai";
 
 type Props = {
   onBack: () => void;

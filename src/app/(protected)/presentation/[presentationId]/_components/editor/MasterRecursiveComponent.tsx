@@ -16,6 +16,11 @@ import Paragraph from "@/components/global/editor/components/Paragraph";
 import TableComponent from "@/components/global/editor/components/TableComponent";
 import ColumnComponent from "../../../../../../components/global/editor/components/ColumnComponent";
 import CustomImage from "@/components/global/editor/components/CustomImage";
+import BlockQuote from "@/components/global/editor/components/BlockQuote";
+import NumberedList, {
+  BulletList,
+  TodoList,
+} from "@/components/global/editor/components/ListComponent";
 
 type MasterRecursiveComponentProps = {
   content: ContentItem;
@@ -126,7 +131,6 @@ const ContentRenderer: React.FC<MasterRecursiveComponentProps> = React.memo(
           );
         }
         return null;
-
       case "image":
         console.log("image", content);
         return (
@@ -139,6 +143,47 @@ const ContentRenderer: React.FC<MasterRecursiveComponentProps> = React.memo(
               contentId={content.id}
               onContentChange={onContentChange}
               isEditable={isEditable}
+            />
+          </motion.div>
+        );
+      case "blockquote":
+        return (
+          <motion.div
+            className={cn("w-full h-full flex flex-col", content.className)}
+            {...animationProps}
+          >
+            <BlockQuote>
+              <Paragraph {...commonProps} />
+            </BlockQuote>
+          </motion.div>
+        );
+      case "numberedList":
+        return (
+          <motion.div className="w-full h-full" {...animationProps}>
+            <NumberedList
+              items={content.content as string[]}
+              onChange={(newItems) => onContentChange(content.id, newItems)}
+              className={content.className}
+            />
+          </motion.div>
+        );
+      case "bulletList":
+        return (
+          <motion.div className="w-full h-full" {...animationProps}>
+            <BulletList
+              items={content.content as string[]}
+              onChange={(newItems) => onContentChange(content.id, newItems)}
+              className={content.className}
+            />
+          </motion.div>
+        );
+      case "todoList":
+        return (
+          <motion.div className="w-full h-full" {...animationProps}>
+            <TodoList
+              items={content.content as string[]}
+              onChange={(newItems) => onContentChange(content.id, newItems)}
+              className={content.className}
             />
           </motion.div>
         );
