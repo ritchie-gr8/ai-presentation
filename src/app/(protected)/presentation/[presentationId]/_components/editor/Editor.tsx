@@ -92,17 +92,38 @@ export const DraggableSlide: React.FC<DraggableSlideProps> = ({
 
   const { currentSlide, setCurrentSlide, currentTheme, updateContentItem } =
     useSlideStore();
-  const [{ isDragging }, drag] = useDrag({
-    type: "SLIDE",
-    item: {
-      index,
-      type: "SLIDE",
-    },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-    canDrag: isEditable,
-  });
+
+  //TODO: check drag and drop
+  // const [{ isDragging }, drag] = useDrag({
+  //   type: "SLIDE",
+  //   item: {
+  //     index,
+  //     type: "SLIDE",
+  //   },
+  //   collect: (monitor) => ({
+  //     isDragging: monitor.isDragging(),
+  //   }),
+  //   canDrag: isEditable,
+  // });
+
+  // const [_, drop] = useDrop({
+  //   accept: ["SLIDE", "LAYOUT"],
+  //   hover(item: { index: number; type: string }) {
+  //     if (!ref.current || !isEditable) return;
+
+  //     const dragIndex = item.index;
+  //     const hoverIndex = index;
+
+  //     if (item.type === "SLIDE") {
+  //       if (dragIndex === hoverIndex) return;
+
+  //       moveSlide(dragIndex, hoverIndex);
+  //       item.index = hoverIndex;
+  //     }
+  //   },
+  // });
+
+  // drag(drop(ref));
 
   const handleContentChange = (
     contentId: string,
@@ -123,7 +144,7 @@ export const DraggableSlide: React.FC<DraggableSlideProps> = ({
         "flex flex-col",
         index === currentSlide ? "ring-2 ring-blue-500 ring-offset-2" : "",
         slide.className,
-        isDragging ? "opacity-50" : "opacity-100"
+        // isDragging ? "opacity-50" : "opacity-100"
       )}
       style={{
         backgroundImage: currentTheme.gradientBackground,
@@ -235,10 +256,10 @@ const Editor = ({ isEditable }: Props) => {
   }, []);
 
   const saveSlides = useCallback(() => {
-    if (isEditable&& project) {
+    if (isEditable && project) {
       (async () => {
-        await updateSlides(project.id, JSON.parse(JSON.stringify(slides)))
-      })()
+        await updateSlides(project.id, JSON.parse(JSON.stringify(slides)));
+      })();
     }
   }, [isEditable, project, slides]);
 
@@ -249,7 +270,7 @@ const Editor = ({ isEditable }: Props) => {
 
     if (isEditable) {
       autoSaveTimerRef.current = setTimeout(() => {
-        // saveSlides();
+        saveSlides();
       }, 2000);
     }
 

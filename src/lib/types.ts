@@ -76,8 +76,21 @@ export type OutlineCard = {
 };
 
 export type LayoutSlides = {
-  slideName: string
-  content: ContentItem
-  className?: string
-  type: string
-}
+  slideName: string;
+  content: ContentItem;
+  className?: string;
+  type: string;
+};
+
+export type Layout = {
+  name: string;
+  icon: React.FC;
+  type: string;
+  component: LayoutSlides;
+  layoutType: string;
+};
+
+export type LayoutGroup = {
+  name: string;
+  layouts: Layout[];
+};
