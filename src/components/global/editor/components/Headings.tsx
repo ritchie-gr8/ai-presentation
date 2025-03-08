@@ -34,7 +34,7 @@ const createHeading = (displayName: string, defaultClassName: string) => {
           className={cn(
             `w-full bg-transparent ${defaultClassName} ${previewClassName}
                     font-normal text-gray-900 placeholder:text-gray-300 mx-2
-                    focus:outline-none resize-none overflow-hidden leading-tight focus:bg-primary`,
+                    focus:outline-none resize-none overflow-hidden leading-tight focus:bg-primary-90`,
             className
           )}
           style={{

@@ -30,7 +30,7 @@ const Paragraph = React.forwardRef<HTMLTextAreaElement, ParagraphProps>(
       <textarea
         className={cn(
           `w-full bg-transparent font-normal text-gray-900 placeholder:text-gray-300 mx-2
-                focus:outline-none resize-none overflow-hidden leading-tight focus:bg-primary`,
+                focus:outline-none resize-none overflow-hidden leading-tight focus:bg-primary-90`,
           `${isPreview ? "text-[0.5rem]" : "text-lg"}`,
           className
         )}

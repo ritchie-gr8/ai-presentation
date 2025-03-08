@@ -25,6 +25,7 @@ import CalloutBox from "@/components/global/editor/components/CalloutBox";
 import CodeBlock from "@/components/global/editor/components/CodeBlock";
 import TableOfContents from "@/components/global/editor/components/TableOfContents";
 import Divider from "@/components/global/editor/components/Divider";
+import { useSlideStore } from "@/store/useSlideStore";
 
 type MasterRecursiveComponentProps = {
   content: ContentItem;
@@ -47,11 +48,16 @@ const ContentRenderer: React.FC<MasterRecursiveComponentProps> = React.memo(
       [content.id, onContentChange]
     );
 
+    const {currentTheme} = useSlideStore()
+
     const commonProps = {
       placeholder: content.placeholder,
       value: content.content as string,
       onChange: handleChange,
       isPreview: isPreview,
+      styles: {
+        color: currentTheme.fontColor,
+      },
     };
 
     const animationProps = {
@@ -60,8 +66,6 @@ const ContentRenderer: React.FC<MasterRecursiveComponentProps> = React.memo(
       transition: { duration: 0.5 },
     };
 
-    // TODO: finish all types
-    console.log(content.type);
     switch (content.type) {
       case "heading1":
         return (
@@ -118,9 +122,7 @@ const ContentRenderer: React.FC<MasterRecursiveComponentProps> = React.memo(
           </motion.div>
         );
       case "resizable-column":
-        console.log("resize before if", content);
         if (Array.isArray(content.content)) {
-          console.log("resize after if", content);
           return (
             <motion.div className="w-full h-full" {...animationProps}>
               <ColumnComponent
@@ -136,7 +138,6 @@ const ContentRenderer: React.FC<MasterRecursiveComponentProps> = React.memo(
         }
         return null;
       case "image":
-        console.log("image", content);
         return (
           <motion.div className="w-full h-full" {...animationProps}>
             <CustomImage
@@ -225,12 +226,12 @@ const ContentRenderer: React.FC<MasterRecursiveComponentProps> = React.memo(
             />
           </motion.div>
         );
-        case 'divider':
-          return (
-            <motion.div className="w-full h-full" {...animationProps}>
+      case "divider":
+        return (
+          <motion.div className="w-full h-full" {...animationProps}>
             <Divider className={content.className as string} />
           </motion.div>
-          )
+        );
       case "column":
         if (Array.isArray(content.content)) {
           return (

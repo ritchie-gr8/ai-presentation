@@ -13,6 +13,7 @@ type Props = {
 
 const ScaledPreview = ({ slide, index, isActive }: Props) => {
   const { currentTheme } = useSlideStore();
+
   return (
     <div
       className={cn(

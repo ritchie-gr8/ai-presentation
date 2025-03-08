@@ -5,7 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { LayoutSlides, Slide } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useSlideStore } from "@/store/useSlideStore";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDrop, useDrag } from "react-dnd";
 import { v4 as uuidv4 } from "uuid";
 import { MasterRecursiveComponent } from "./MasterRecursiveComponent";
@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { EllipsisVertical, Trash } from "lucide-react";
+import { updateSlides } from "@/actions/projects";
 
 type DropZoneProps = {
   index: number;
@@ -140,7 +141,10 @@ export const DraggableSlide: React.FC<DraggableSlideProps> = ({
       </div>
       {isEditable && (
         <Popover>
-          <PopoverTrigger asChild className="absolute top-2 left-2 opacity-60 hover:opacity-100">
+          <PopoverTrigger
+            asChild
+            className="absolute top-2 left-2 opacity-60 hover:opacity-100"
+          >
             <Button variant={"outline"} size={"sm"}>
               <EllipsisVertical className="size-5" />
               <span className="sr-only">Slide options</span>
@@ -176,6 +180,7 @@ const Editor = ({ isEditable }: Props) => {
   } = useSlideStore();
   const orderedSlides = getOrderedSlides();
 
+  const autoSaveTimerRef = useRef<NodeJS.Timeout | null>();
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [loading, setLoading] = useState(true);
   const moveSlide = (dragIndex: number, hoverIndex: number) => {
@@ -228,6 +233,32 @@ const Editor = ({ isEditable }: Props) => {
   useEffect(() => {
     if (typeof window !== "undefined") setLoading(false);
   }, []);
+
+  const saveSlides = useCallback(() => {
+    if (isEditable&& project) {
+      (async () => {
+        await updateSlides(project.id, JSON.parse(JSON.stringify(slides)))
+      })()
+    }
+  }, [isEditable, project, slides]);
+
+  useEffect(() => {
+    if (autoSaveTimerRef.current) {
+      clearTimeout(autoSaveTimerRef.current);
+    }
+
+    if (isEditable) {
+      autoSaveTimerRef.current = setTimeout(() => {
+        // saveSlides();
+      }, 2000);
+    }
+
+    return () => {
+      if (autoSaveTimerRef.current) {
+        clearTimeout(autoSaveTimerRef.current);
+      }
+    };
+  }, [slides, isEditable, project]);
 
   return (
     <div className="flex-1 flex flex-col h-full max-w-3xl mx-auto px-4 mb-20">
