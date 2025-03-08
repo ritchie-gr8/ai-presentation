@@ -21,6 +21,10 @@ import NumberedList, {
   BulletList,
   TodoList,
 } from "@/components/global/editor/components/ListComponent";
+import CalloutBox from "@/components/global/editor/components/CalloutBox";
+import CodeBlock from "@/components/global/editor/components/CodeBlock";
+import TableOfContents from "@/components/global/editor/components/TableOfContents";
+import Divider from "@/components/global/editor/components/Divider";
 
 type MasterRecursiveComponentProps = {
   content: ContentItem;
@@ -187,6 +191,46 @@ const ContentRenderer: React.FC<MasterRecursiveComponentProps> = React.memo(
             />
           </motion.div>
         );
+      case "calloutBox":
+        return (
+          <motion.div className="w-full h-full" {...animationProps}>
+            <CalloutBox
+              type={content.callOutType || "info"}
+              className={content.className}
+            >
+              <Paragraph {...commonProps} />
+            </CalloutBox>
+          </motion.div>
+        );
+      case "codeBlock":
+        return (
+          <motion.div className="w-full h-full" {...animationProps}>
+            <CodeBlock
+              code={content.code}
+              language={content.language}
+              onChange={() => {}}
+              className={content.className}
+            />
+          </motion.div>
+        );
+      case "tableOfContents":
+        return (
+          <motion.div className="w-full h-full" {...animationProps}>
+            <TableOfContents
+              items={content.content as string[]}
+              onItemClick={(id) => {
+                console.log(`Navigate to section: ${id}`);
+              }}
+              className={content.className}
+            />
+          </motion.div>
+        );
+        case 'divider':
+          return (
+            <motion.div className="w-full h-full" {...animationProps}>
+            <Divider className={content.className as string} />
+          </motion.div>
+          )
       case "column":
         if (Array.isArray(content.content)) {
           return (

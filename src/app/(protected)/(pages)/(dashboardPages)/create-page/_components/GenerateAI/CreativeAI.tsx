@@ -22,7 +22,7 @@ import { OutlineCard } from "@/lib/types";
 import { v4 as uuid, v4 } from "uuid";
 import { createProject } from "@/actions/projects";
 import { useSlideStore } from "@/store/useSlideStore";
-import { generateCreativePrompt } from "@/actions/openai";
+import { generateCreativePrompt } from "@/actions/gemini";
 
 type Props = {
   onBack: () => void;
