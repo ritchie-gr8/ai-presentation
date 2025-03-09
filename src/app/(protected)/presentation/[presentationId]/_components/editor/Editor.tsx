@@ -58,6 +58,7 @@ export const DropZone: React.FC<DropZoneProps> = ({
 
   return (
     <div
+      ref={dropRef as unknown as React.RefObject<HTMLDivElement>}
       className={cn(
         "h-4 my-2 rounded-md transition-all duration-200",
         isOver && canDrop ? "border-green-500 bg-green-100" : "border-gray-300",
@@ -143,7 +144,7 @@ export const DraggableSlide: React.FC<DraggableSlideProps> = ({
         "shadow-xl transition-shadow duration-300",
         "flex flex-col",
         index === currentSlide ? "ring-2 ring-blue-500 ring-offset-2" : "",
-        slide.className,
+        slide.className
         // isDragging ? "opacity-50" : "opacity-100"
       )}
       style={{
@@ -304,6 +305,13 @@ const Editor = ({ isEditable }: Props) => {
                   handleDelete={handleDelete}
                   isEditable={isEditable}
                 />
+                {isEditable && (
+                  <DropZone
+                    index={idx + 1}
+                    onDrop={handleDrop}
+                    isEditable={isEditable}
+                  />
+                )}
               </React.Fragment>
             ))}
           </div>

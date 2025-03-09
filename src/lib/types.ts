@@ -94,3 +94,16 @@ export type LayoutGroup = {
   name: string;
   layouts: Layout[];
 };
+
+export type Component = {
+  name: string;
+  icon: string;
+  type: string;
+  component: ContentItem;
+  componentType: string;
+};
+
+export type ComponentGroup = {
+  name: string;
+  components: Component[];
+};
