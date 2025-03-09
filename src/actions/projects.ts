@@ -5,11 +5,18 @@ import { onAuthenticateUser } from "./user";
 import { OutlineCard } from "@/lib/types";
 import { JsonValue } from "@prisma/client/runtime/library";
 
+const createResponse = (status: number, data?: any, error?: string) => {
+  if (error) {
+    return { status, error };
+  }
+  return { status, data };
+};
+
 export const getAllProjects = async () => {
   try {
     const checkUser = await onAuthenticateUser();
     if (checkUser.status !== 200 || !checkUser.user) {
-      return { status: 403, error: "User not authenticated" };
+      return createResponse(403, null, "User not authenticated");
     }
 
     const projects = await client.project.findMany({
@@ -23,13 +30,13 @@ export const getAllProjects = async () => {
     });
 
     if (projects.length === 0) {
-      return { status: 404, error: "No projects found" };
+      return createResponse(404, null, "No projects found");
     }
 
-    return { status: 200, data: projects };
+    return createResponse(200, projects);
   } catch (error) {
     console.error("🔴 ERROR", error);
-    return { status: 500, error: "Internal server error" };
+    return createResponse(500, null, "Internal server error");
   }
 };
 
@@ -37,7 +44,7 @@ export const getRecentProjects = async () => {
   try {
     const checkUser = await onAuthenticateUser();
     if (checkUser.status !== 200 || !checkUser.user) {
-      return { status: 403, error: "User not authenticated" };
+      return createResponse(403, null, "User not authenticated");
     }
 
     const projects = await client.project.findMany({
@@ -52,22 +59,21 @@ export const getRecentProjects = async () => {
     });
 
     if (projects.length === 0) {
-      return { status: 404, error: "No recent projects available" };
+      return createResponse(404, null, "No recent projects available");
     }
 
-    return { status: 200, data: projects };
+    return createResponse(200, projects);
   } catch (error) {
     console.error("🔴 ERROR", error);
-    return { status: 500, error: "Internal server error" };
+    return createResponse(500, null, "Internal server error");
   }
 };
 
-// TODO: maybe combine recoverProject and deleteProject into 1 function
 export const recoverProject = async (projectId: string) => {
   try {
     const checkUser = await onAuthenticateUser();
     if (checkUser.status !== 200 || !checkUser.user) {
-      return { status: 403, error: "User not authenticated" };
+      return createResponse(403, null, "User not authenticated");
     }
 
     const updatedProject = await client.project.update({
@@ -80,13 +86,13 @@ export const recoverProject = async (projectId: string) => {
     });
 
     if (!updatedProject) {
-      return { status: 500, error: "Failed to recover project" };
+      return createResponse(500, null, "Failed to recover project");
     }
 
-    return { status: 200, data: updatedProject };
+    return createResponse(200, updatedProject);
   } catch (error) {
     console.error("🔴 ERROR", error);
-    return { status: 500, error: "Internal server error" };
+    return createResponse(500, null, "Internal server error");
   }
 };
 
@@ -94,7 +100,7 @@ export const deleteProject = async (projectId: string) => {
   try {
     const checkUser = await onAuthenticateUser();
     if (checkUser.status !== 200 || !checkUser.user) {
-      return { status: 403, error: "User not authenticated" };
+      return createResponse(403, null, "User not authenticated");
     }
 
     const updatedProject = await client.project.update({
@@ -107,33 +113,27 @@ export const deleteProject = async (projectId: string) => {
     });
 
     if (!updatedProject) {
-      return { status: 500, error: "Failed to delete project" };
+      return createResponse(500, null, "Failed to delete project");
     }
 
-    return { status: 200, data: updatedProject };
+    return createResponse(200, updatedProject);
   } catch (error) {
     console.error("🔴 ERROR", error);
-    return { status: 500, error: "Internal server error" };
+    return createResponse(500, null, "Internal server error");
   }
 };
 
 export const createProject = async (title: string, outlines: OutlineCard[]) => {
   try {
     if (!title || !outlines || outlines.length === 0) {
-      return {
-        status: 400,
-        error: "Title and outlines are required",
-      };
+      return createResponse(400, null, "Title and outlines are required");
     }
 
     const allOutlines = outlines.map((outline) => outline.title);
 
     const checkUser = await onAuthenticateUser();
     if (checkUser.status !== 200 || !checkUser.user) {
-      return {
-        status: 403,
-        error: "User not authenticated",
-      };
+      return createResponse(403, null, "User not authenticated");
     }
 
     const project = await client.project.create({
@@ -147,16 +147,13 @@ export const createProject = async (title: string, outlines: OutlineCard[]) => {
     });
 
     if (!project) {
-      return {
-        status: 500,
-        error: "Failed to create project",
-      };
+      return createResponse(500, null, "Failed to create project");
     }
 
-    return { status: 200, data: project };
+    return createResponse(200, project);
   } catch (error) {
     console.error("🔴 ERROR", error);
-    return { status: 500, error: "Internal server error" };
+    return createResponse(500, null, "Internal server error");
   }
 };
 
@@ -164,10 +161,7 @@ export const getProjectById = async (projectId: string) => {
   try {
     const checkUser = await onAuthenticateUser();
     if (checkUser.status !== 200 || !checkUser.user) {
-      return {
-        status: 403,
-        error: "User not authenticated",
-      };
+      return createResponse(403, null, "User not authenticated");
     }
 
     const project = await client.project.findUnique({
@@ -177,23 +171,20 @@ export const getProjectById = async (projectId: string) => {
     });
 
     if (!project) {
-      return { status: 404, error: "Project not found" };
+      return createResponse(404, null, "Project not found");
     }
 
-    return { status: 200, data: project };
+    return createResponse(200, project);
   } catch (error) {
     console.error("🔴 ERROR", error);
-    return { status: 500, error: "Internal server error" };
+    return createResponse(500, null, "Internal server error");
   }
 };
 
 export const updateSlides = async (projectId: string, slides: JsonValue) => {
   try {
     if (!projectId || !slides) {
-      return {
-        status: 400,
-        error: "Project ID and slides are required.",
-      };
+      return createResponse(400, null, "Project ID and slides are required.");
     }
 
     const updatedProject = await client.project.update({
@@ -206,29 +197,23 @@ export const updateSlides = async (projectId: string, slides: JsonValue) => {
     });
 
     if (!updatedProject) {
-      return {
-        status: 500,
-        error: "Failed to update slides.",
-      };
+      return createResponse(500, null, "Failed to update slides.");
     }
 
-    return { status: 200, data: updatedProject };
+    return createResponse(200, updatedProject);
   } catch (error) {
     console.error("🔴 ERROR", error);
-    return { status: 500, error: "Internal server error" };
+    return createResponse(500, null, "Internal server error");
   }
 };
 
 export const updateTheme = async (projectId: string, theme: string) => {
   try {
     if (!projectId || !theme) {
-      return {
-        status: 400,
-        error: "Project ID and Theme are required.",
-      };
+      return createResponse(400, null, "Project ID and Theme are required.");
     }
 
-    const updatedProject = client.project.update({
+    const updatedProject = await client.project.update({
       where: {
         id: projectId,
       },
@@ -238,15 +223,83 @@ export const updateTheme = async (projectId: string, theme: string) => {
     });
 
     if (!updatedProject) {
-      return {
-        status: 500,
-        error: "Failed to update theme",
-      };
+      return createResponse(500, null, "Failed to update theme");
     }
 
-    return { status: 200, data: updatedProject };
+    return createResponse(200, updatedProject);
   } catch (error) {
     console.error("🔴 ERROR", error);
-    return { status: 500, error: "Internal server error" };
+    return createResponse(500, null, "Internal server error");
+  }
+};
+
+export const deleteAllProjects = async (projectIds: string[]) => {
+  try {
+    if (!Array.isArray(projectIds) || projectIds.length === 0) {
+      return createResponse(400, null, "No project IDs provided.");
+    }
+
+    const checkUser = await onAuthenticateUser();
+    if (checkUser.status !== 200 || !checkUser.user) {
+      return createResponse(403, null, "User not authenticated");
+    }
+
+    const userId = checkUser.user.id;
+
+    const projectsToDelete = await client.project.findMany({
+      where: {
+        id: {
+          in: projectIds,
+        },
+        userId: userId,
+      },
+    });
+
+    if (projectsToDelete.length === 0) {
+      return createResponse(404, null, "No projects found for the given IDs.");
+    }
+
+    const deletedProjects = await client.project.deleteMany({
+      where: {
+        id: {
+          in: projectsToDelete.map((project) => project.id),
+        },
+      },
+    });
+
+    return createResponse(200, {
+      message: `${deletedProjects.count} projects have been deleted successfully.`,
+    });
+  } catch (error) {
+    console.error("🔴 ERROR", error);
+    return createResponse(500, null, "Internal server error");
+  }
+};
+
+export const getDeletedProjects = async () => {
+  try {
+    const checkUser = await onAuthenticateUser();
+    if (checkUser.status !== 200 || !checkUser.user) {
+      return createResponse(403, null, "User not authenticated");
+    }
+
+    const projects = await client.project.findMany({
+      where: {
+        userId: checkUser.user.id,
+        isDeleted: true,
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
+
+    if (projects?.length === 0) {
+      return createResponse(400, null, "No deleted projects found.");
+    }
+
+    return createResponse(200, projects);
+  } catch (error) {
+    console.error("🔴 ERROR", error);
+    return createResponse(500, null, "Internal server error");
   }
 };

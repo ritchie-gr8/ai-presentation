@@ -48,7 +48,7 @@ const ContentRenderer: React.FC<MasterRecursiveComponentProps> = React.memo(
       [content.id, onContentChange]
     );
 
-    const {currentTheme} = useSlideStore()
+    const { currentTheme } = useSlideStore();
 
     const commonProps = {
       placeholder: content.placeholder,

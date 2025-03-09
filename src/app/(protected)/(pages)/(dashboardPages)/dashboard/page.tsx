@@ -20,7 +20,6 @@ const DashboardPage = async () => {
 
       {/* Projects */}
       {allProjects.data && allProjects.data.length > 0 ? (
-        // TODO: create projects component
         <Projects projects={allProjects.data} />
       ) : (
         <NotFound />
