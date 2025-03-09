@@ -7,7 +7,6 @@ import React from "react";
 
 const NewProjectButton = ({ user }: { user: User }) => {
   const router = useRouter();
-  //TODO: handle new project btn
   return (
     <Button
       className="rounded-lg font-semibold"
