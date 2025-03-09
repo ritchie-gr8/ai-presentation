@@ -46,6 +46,7 @@ const ThemePicker = ({ selectedTheme, themes, onThemeSelect }: Prop) => {
       );
 
       if (res.status !== 200 || !("data" in res)) {
+        console.log(res)
         throw new Error("Failed to generate layouts");
       }
 

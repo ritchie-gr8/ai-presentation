@@ -87,6 +87,7 @@ const CreatePage = ({ onSelectOptions }: Props) => {
                   className="w-fit rounded-xl font-bold"
                   size={"sm"}
                   onClick={() => onSelectOptions(option.type)}
+                  disabled={option.type === 'template'}
                 >
                   {option.highlight ? "Generate" : "Continue"}
                 </Button>
