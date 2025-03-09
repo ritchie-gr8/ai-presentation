@@ -43,22 +43,15 @@ const EditorSidebar = () => {
         {/* // TODO: make drag and drop work */}
         <Popover>
           <PopoverTrigger asChild>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <Button
-                    variant={"ghost"}
-                    size={"icon"}
-                    className="size-10 rounded-full"
-                    disabled={true}
-                  >
-                    <Type className="size-5" />
-                    <span className="sr-only"></span>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Coming soon</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <Button
+              variant={"ghost"}
+              size={"icon"}
+              className="size-10 rounded-full"
+              disabled={true}
+            >
+              <Type className="size-5" />
+              <span className="sr-only"></span>
+            </Button>
           </PopoverTrigger>
           <PopoverContent
             side="left"
