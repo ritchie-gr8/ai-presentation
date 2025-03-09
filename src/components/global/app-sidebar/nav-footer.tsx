@@ -1,4 +1,5 @@
 "use client";
+import { buySubscription } from "@/actions/lemonSqueezy";
 import { Button } from "@/components/ui/button";
 import {
   SidebarMenu,
@@ -9,6 +10,7 @@ import { SignedIn, UserButton, useUser } from "@clerk/nextjs";
 import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { toast } from "sonner";
 
 const NavFooter = ({ prismaUser }: { prismaUser: User }) => {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -18,6 +20,24 @@ const NavFooter = ({ prismaUser }: { prismaUser: User }) => {
   if (!isLoaded || !isSignedIn) {
     return null;
   }
+
+  const handleUpgrade = async () => {
+    setLoading(true);
+    try {
+      const res = await buySubscription(prismaUser.id);
+      if (res.status !== 200) {
+        throw new Error("Failed to upgrade subscription");
+      }
+      router.push(res.url);
+    } catch (error) {
+      console.error(error);
+      toast.error("Error", {
+        description: "Something went wrong. Please try again later.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <SidebarMenu>
@@ -40,7 +60,7 @@ const NavFooter = ({ prismaUser }: { prismaUser: User }) => {
                     font-bold"
                   variant={"default"}
                   size={"lg"}
-                  onClick={() => {}}
+                  onClick={handleUpgrade}
                 >
                   {loading ? "Upgrading..." : "Upgrade"}
                 </Button>
@@ -57,9 +77,7 @@ const NavFooter = ({ prismaUser }: { prismaUser: User }) => {
                 className="grid flex-1 text-left text-sm
                 leading-tight group-data-[collapsible=icon]:hidden"
               >
-                <span className="truncate font-semibold">
-                  {user?.fullName}
-                </span>
+                <span className="truncate font-semibold">{user?.fullName}</span>
                 <span className="truncate text-secondary">
                   {user?.emailAddresses[0].emailAddress}
                 </span>

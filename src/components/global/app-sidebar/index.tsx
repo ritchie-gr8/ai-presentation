@@ -1,5 +1,5 @@
 "use client";
-import { Avatar } from "@/components/ui/avatar";
+
 import {
   Sidebar,
   SidebarContent,
@@ -9,12 +9,12 @@ import {
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
 import { Project, User } from "@prisma/client";
-import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import React from "react";
 import NavMain from "./nav-main";
 import { data } from "@/lib/constants";
 import RecentOpen from "./recent-open";
 import NavFooter from "./nav-footer";
+import { PenTool } from "lucide-react";
 
 const AppSidebar = ({
   recentProjects,
@@ -28,7 +28,7 @@ const AppSidebar = ({
   return (
     <Sidebar
       collapsible="icon"
-      className="max-w-[212px] bg-background-90"
+      className="max-w-[224px] bg-background-90"
       {...props}
     >
       <SidebarHeader className="pt-6 px-2 pb-0">
@@ -36,17 +36,11 @@ const AppSidebar = ({
           size={"lg"}
           className="data-[state=open] :text-sidebar-accent-foreground"
         >
-          <div
-            className="flex aspect-square size-8 items-center
-            justify-center rounded-lg text-sidebar-primary"
-          >
-            <Avatar className="h-10 w-10 rounded-full">
-              <AvatarImage src="/favicon.ico" alt="icon" />
-              <AvatarFallback className="rounded-lg">VI</AvatarFallback>
-            </Avatar>
+          <div className="bg-primary p-2 rounded-md">
+            <PenTool className="size-5 text-primary-foreground" />
           </div>
           <span className="truncate text-primary text-3xl font-semibold">
-            AI PPT
+            SlideSage
           </span>
         </SidebarMenuButton>
       </SidebarHeader>

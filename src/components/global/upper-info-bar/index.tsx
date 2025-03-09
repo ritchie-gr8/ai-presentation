@@ -23,7 +23,8 @@ const UpperInfoBar = ({ user }: Props) => {
         className="w-full max-w-[95%] flex items-center
         justify-between gap-4 flex-wrap"
       >
-        <SearchBar />
+        {/* <SearchBar /> */}
+        <div className="min-w-[60%]" />
         <ThemeSwitcher />
         <div
           className="flex flex-wrap gap-4
