@@ -5,11 +5,12 @@
 SignSage is a personal project I developed to enhance my skills in Next.js and explore the integration of AI technologies. The app leverages the following technologies:
 
 - **Frontend**: Next.js ⚛️, TailwindCSS 🌬️, Framer Motion 🎞️
-- **Payment Integration**: Lemon Squeezy 💳
+- **Payment Integration**: Lemon Squeezy 💳 (Might change to Stripe later)
 - **Database**: Prisma 🗃️
 - **AI Integration**: OpenAI 🤖, Gemini AI 🧠
+- **File Upload**: Using Uploadcare to handles image uploads, though this service may be replaced with a more cost-effective solution in the future.
 
-SignSage is designed to provide users with AI-powered features to generate a presentation via user outline that user generate by a prompt. The app also includes a payment system powered by Lemon Squeezy for premium features. While the app is currently at its MVP (Minimum Viable Product) stage, there are still some pages and features that are under development. 🚧
+SignSage is designed to provide users with AI-powered features to generate a presentation via user outline that user generate by a prompt. The app also includes a payment system powered by Lemon Squeezy for premium features. While the app is currently at its MVP (Minimum Viable Product) stage, there are still some pages and features that are under development. 🚧 
 
 You can try the live version of the app here: [https://ai-presentation-puce.vercel.app/](https://ai-presentation-puce.vercel.app/) 
 
